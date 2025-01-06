@@ -80,11 +80,14 @@ export default function Home() {
   }
 
   return (
-    <div className="h-screen w-screen flex flex-col justify-center items-center bg-[#b7dbeb]">
-      <h2>MyLab</h2>
-      <h3>Sample result checker</h3>
-      <div>
+    <div className="h-screen w-screen flex flex-col justify-center items-center bg-blue-200">
+      <div className="flex flex-col justify-center items-center mb-12">
+        <h2 className="text-3xl font-bold text-blue-900">MyLab</h2>
+        <h3 className="text-blue-900">Sample result checker</h3>
+      </div>
+      <div className="flex gap-2">
         <input
+          className="bg-white min-w-[240px] p-3"
           id={"id"}
           type="text"
           value={id}
@@ -92,7 +95,9 @@ export default function Home() {
           onChange={(e: ChangeEvent<HTMLInputElement>) => setId(e.target.value)}
         />
         <button
+          className="bg-blue-700 hover:bg-blue-800 text-white p-3 disabled:bg-gray-400"
           id={"checkID"}
+          disabled={id.length != 20}
           onClick={() => {
             setResult(extractAndCheckFibonacci(id) ? "Negative" : "Positive");
             setPrice(generateNumber(extractNumber(id)));
@@ -101,16 +106,30 @@ export default function Home() {
           Show result
         </button>
       </div>
-      <div className="grid grid-cols-2 gap-2">
-        <div>Result</div>
-        <div>Price</div>
+      {result != "" ? (
+        <div>
+          <div className="grid grid-cols-2 gap-2 mt-12 text-blue-900">
+            <div>Result:</div>
+            <div className="font-semibold" id="result">
+              {result}
+            </div>
 
-        <div id="result">{result}</div>
-        <div id="price">{price}€</div>
-      </div>
-      <button onClick={handleExport} id={"download"}>
-        Download data
-      </button>
+            <div>Price:</div>
+            <div className="font-semibold" id="price">
+              {price}€
+            </div>
+          </div>
+          <button
+            onClick={handleExport}
+            id={"download"}
+            className="hover:bg-blue-700 border-2 border-blue-700 text-blue-700 hover:text-white p-3 mt-8"
+          >
+            Download data
+          </button>
+        </div>
+      ) : (
+        ""
+      )}
     </div>
   );
 }
